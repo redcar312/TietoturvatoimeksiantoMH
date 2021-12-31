@@ -3,8 +3,8 @@ require_once('config.php');
 
 if (isset($_POST["submit"])) {
     session_start();
-    $username = filter_var($_POST["username"]);
-    $password = filter_var($_POST["password"]);
+    $username = filter_var($_POST["username"], FILTER_SANITIZE_STRING);
+    $password = filter_var($_POST["password"], FILTER_SANITIZE_STRING);
     try {
         $sql = "SELECT * FROM customer WHERE username=?";
         $prep = $dbcon->prepare($sql);
@@ -15,6 +15,8 @@ if (isset($_POST["submit"])) {
             if (password_verify($password, $pw)) {
                 $_SESSION['user'] = $username;
                 header('location: welcome.php');
+            } else {
+                echo "Wrong username or password";
             }
         }
     } catch (PDOException $e) {

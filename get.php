@@ -3,8 +3,8 @@ require_once('config.php');
 session_start();
 if(isset($_GET["submit"])){
 $username = $_SESSION['user'];
-$firstname = filter_var( $_GET["firstname"]);
-$lastname = filter_var( $_GET["lastname"]);
+$firstname = filter_var( $_GET["firstname"], FILTER_SANITIZE_STRING);
+$lastname = filter_var( $_GET["lastname"], FILTER_SANITIZE_STRING);
 try{
 
     $insrt = $dbcon->prepare("INSERT INTO customerinfo (firstname, lastname) VALUES (:firstname, :lastname)");
